@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express';
-import path, { sep } from 'path'
+import path from 'path'
 import fs from 'fs';
 import moment, { Moment } from 'moment';
 
@@ -12,6 +12,7 @@ type RawActivity = {
 
 type Activity = string[]
 
+// For future features :)
 type TimelineActivity = {
     timestamp: Moment,
     activity: Activity
@@ -167,7 +168,7 @@ app.get('/api/day_stats', (req: Request, res: Response) => {
 
     // Date parsing
     let date : string;
-    if (req.query.hasOwnProperty("date")){
+    if (req.query.hasOwnProperty("date")) {
         if (typeof req.query.date !== "string") {
             res.status(400).send("Please provide date as a string");
             return;
@@ -178,14 +179,14 @@ app.get('/api/day_stats', (req: Request, res: Response) => {
         }
         date = req.query.date;
     }
-    else{
+    else {
         date = moment().startOf("day").format("DD-MM-YY");
     }
 
     // Line finding
     const activities = get_lines_matching_date(
         moment(date, "DD-MM-YY", true).startOf("day"),
-        moment(date, "DD-MM-YY", true).endOf("day").endOf("hour").endOf("minute")
+        moment(date, "DD-MM-YY", true).endOf("day")
         );
 
     // Build breakdown
@@ -205,10 +206,7 @@ app.get('/api/day_stats', (req: Request, res: Response) => {
         add_to_breakdown(root.subActivities[category], activity.slice(0, activity.length - 1));
     }
 
-    let act_count = 0;
-
     activities.forEach( a => {
-        act_count += 1;
         let categorised = categorise_activity(a.activity);
         add_to_breakdown(breakdown, categorised);
     })
