@@ -97,6 +97,10 @@ function categorise_activity(activity: string) : Activity {
                         (_) => [unknown, "Wcostream", "Google Chrome"]);
                 }
 
+                else if (page.endsWith("pixiv") || page.includes("[pixiv]")) {
+                    return ["pixiv", "Google Chrome"];
+                }
+
                 return [page, "Google Chrome"]
             },
             () => [unknown, "Google Chrome"])
