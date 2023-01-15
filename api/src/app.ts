@@ -67,6 +67,14 @@ function categorise_activity(activity: string) : Activity {
         return ["Debug Console", "Visual Studio"];
     }
 
+    else if (activity.endsWith("Visual Studio Code")) {
+        return expect_suffix(" - ", "Visual Studio Code", activity,
+            (project) => prefix_suffix(" - ", project,
+                (_, project_name) => [project_name, "Visual Studio Code"],
+                (project_name) => [project_name, "Visual Studio Code"]),
+            () => [unknown, "Visual Studio Code"])
+    }
+
     else if (activity.includes("20 Minute Guided Meditation for Focus")) {
         return ["Meditation"];
     }
