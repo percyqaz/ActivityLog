@@ -22,3 +22,5 @@ Overall I will have a web app that lets me get insights on my habits so I can:
 - Look at the pretty data
 - Evaluate how much time I waste doing certain things
 - Read and understand React codebases
+
+Many thanks to [this guide](https://www.freecodecamp.org/news/how-to-create-a-react-app-with-a-node-backend-the-complete-guide/) for helping me get started (although I hear that `create-react-app` isn't very good and I should be using a better alternative for new projects)
