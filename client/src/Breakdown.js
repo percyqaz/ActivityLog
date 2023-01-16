@@ -7,12 +7,12 @@ function format_time(timeInSeconds) {
 
     return (hours ? (hours + "h") : "") 
          + (minutes ? (minutes + "m") : "")
-         + (seconds ? (seconds + "s") : "")
+         + (seconds ? (seconds + "s") : "");
 }
 
 function Activity(props) {
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div className="Breakdown">
@@ -44,20 +44,22 @@ function Activity(props) {
     );
 }
 
-function Breakdown() {
+function Breakdown({ date }) {
     const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
-        fetch("/api/day_stats")
+        setLoading(true);
+        fetch(date ? "/api/day_stats?date=" + date : "api/day_stats")
             .then(res => res.json())
-            .then(data => { console.log(data); setData(data) });
-    }, []);
+            .then(data => { setData(data); setLoading(false); });
+    }, [date]);
 
     return (
         <div className="Breakdown">
-            {!data
+            {loading
                 ? <p>Loading..</p>
-                : <Activity title="Today's Breakdown" activity={data.breakdown} />
+                : <Activity title={date ? "Breakdown for " + date : "Today's Breakdown"} activity={data.breakdown} />
             }
         </div>
     );
